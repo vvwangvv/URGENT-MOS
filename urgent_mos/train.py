@@ -10,7 +10,7 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
 
-@hydra.main(version_base=None, config_path="../configs/is27", config_name="train")
+@hydra.main(version_base=None, config_path="../configs", config_name="f1c1m5_d_corpus")
 def main(cfg: DictConfig) -> None:
     OmegaConf.resolve(cfg)
 

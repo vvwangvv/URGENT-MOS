@@ -1,4 +1,3 @@
-# pyproject.toml
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -6,34 +5,74 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "urgent_mos"
 version = "0.0.1"
-description = "The official implementation of URGNET-MOS."
+description = "UrgentMOS — official baseline for VoiceMOS Challenge 2026 Track 1 (MOS / CMOS prediction)."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 authors = [{ name = "Wei Wang", email = "wangweidmail0809@gmail.com" }]
+keywords = [
+    "speech-quality",
+    "mos",
+    "cmos",
+    "speech-quality-assessment",
+    "audio",
+    "deep-learning",
+    "pytorch",
+    "urgent-challenge",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 
 dependencies = [
     "accelerate",
-    "torch",
-    "torchaudio",
-    "hydra-core",
-    "huggingface_hub",
-    "transformers",
+    "datasets",
     "einops",
+    "huggingface_hub",
+    "hydra-core",
+    "numpy",
     "omegaconf",
+    "torch>=2.4",
+    "torchaudio",
+    "torchcodec",
+    "tqdm",
+    "transformers>=4.45",
 ]
 
-# Extras: install with pip install -e ".[dev]" (or ".[dev,docs]" for multiple)
+# Extras: install with `pip install -e ".[dev]"` (or `".[dev,docs,train]"`)
 [project.optional-dependencies]
-train = ["pandas", "scipy"]
+train = [
+    "pandas",
+    "scipy",
+    "wandb",
+    "openpyxl",
+]
 dev = [
     "pytest>=8",
     "pytest-cov",
-    "ruff",       # linter/formatter
-    "mypy",       # type checking
-    "pre-commit", # git hooks
+    "ruff",
+    "mypy",
+    "pre-commit",
 ]
-docs = ["mkdocs-material", "mkdocstrings[python]"]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+]
+
+[project.urls]
+Homepage = "https://github.com/vvwangvv/URGENT-MOS"
+Repository = "https://github.com/vvwangvv/URGENT-MOS"
+Issues = "https://github.com/vvwangvv/URGENT-MOS/issues"
+"Pretrained models" = "https://huggingface.co/urgent-challenge"
 
 [tool.setuptools]
 packages = { find = { include = ["urgent_mos*"] } }

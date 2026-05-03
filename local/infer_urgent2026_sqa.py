@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""
-Run URGNET-MOS inference on the urgent-challenge/urgent2026-sqa HuggingFace dataset.
+"""Run URGENT-MOS inference on the urgent-challenge/urgent2026-sqa dataset.
 
 Produces a submission-ready predictions.scp (space-delimited, headerless):
-  sample_id score
+
+    sample_id score
 
 ACR: absolute score (MOS 1--5). CCR: comparative score (CMOS -3 to +3).
 
 Usage (from repo root):
-  python local/infer_urgent2026_sqa.py --checkpoint path/to/model.pt --output predictions.scp
+
+    python local/infer_urgent2026_sqa.py --checkpoint path/to/model.pt --output predictions.scp
 """
 from __future__ import annotations
 
@@ -95,7 +96,7 @@ def run_ccr(model, dataset, batch_frames: int | None):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run URGNET-MOS on urgent2026-sqa (ACR + CCR) and write predictions.scp"
+        description="Run URGENT-MOS on urgent2026-sqa (ACR + CCR) and write predictions.scp"
     )
     parser.add_argument(
         "--checkpoint",

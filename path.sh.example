@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Copy this file to `path.sh` and edit for your environment.
+# `path.sh` is git-ignored so your local edits won't be committed.
+#
+#   cp path.sh.example path.sh
+#   # edit path.sh
+#   . path.sh
+
+# --- Activate your Python environment (choose one) ---
+# conda activate urgent_mos
+# source /path/to/venv/bin/activate
+# source /path/to/miniconda3/etc/profile.d/conda.sh && conda activate urgent_mos
+
+# --- Weights & Biases (optional, used by trainer.py) ---
+export WANDB_PROJECT="${WANDB_PROJECT:-urgent-mos}"
+export WANDB_MODE="${WANDB_MODE:-online}"     # online | offline | disabled
+export WANDB_RESUME="${WANDB_RESUME:-allow}"  # allow | never | must
+
+# --- Run-from-source convenience (skip if you `pip install -e .`) ---
+export PYTHONPATH=.

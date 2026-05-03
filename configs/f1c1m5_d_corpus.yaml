@@ -1,0 +1,114 @@
+defaults:
+  - _self_
+
+# Hydra run directory, checkpoints and config are in one place
+exp_dir: default
+hydra:
+  run:
+    dir: ${exp_dir}
+
+train_data:
+  - data/nisqa/train/data.jsonl
+  - data/pstn/train/data.jsonl
+  - data/somos/train/data.jsonl
+  - data/speecheval/train/data_pairs.jsonl
+  - data/speechjudge/train/data_pairs.jsonl
+  - data/tcd-voip/train/data.jsonl
+  - data/tencent/train/data.jsonl
+  - data/tmhint-qi/train/data.jsonl
+  - data/ttsds2/train/data.jsonl
+
+cv_data:
+  - data/speechjudge/test/data_pairs.jsonl
+  - data/somos/test/data.jsonl
+
+pretrained_ckpt: null
+
+category2metrics:
+  mos:
+    mos_overall: {min: 1.0, max: 5.0, comparative_score: true}
+    scoreq: {min: 1.0, max: 5.0}
+    utmos: {min: 1.0, max: 5.0}
+    nisqa_mos: {min: 1.0, max: 5.0}
+    distill_mos: {min: 1.0, max: 5.0}
+
+dataloader:
+  _target_: urgent_mos.data.build_dataloader
+  category2metrics: ${category2metrics}
+  sample_rate: 16000
+  seed: 42
+  batch_frame_per_gpu: 4800000
+  max_samples_per_gpu: 32
+  num_workers: 8
+  pairing_scope: "corpus"
+
+trainer:
+  _target_: urgent_mos.trainer.Trainer
+  model: ${model}
+  epochs: 100
+  learning_rate: 3.0e-5
+  num_warmup_updates: 0
+  grad_accumulation_steps: 1
+  grad_norm: 1.0
+  save_per_updates: 1000
+  log_per_updates: 100
+  keep_last_n_checkpoints: -1
+  exp_dir: ${exp_dir}
+  pretrained_ckpt: ${pretrained_ckpt}
+  report_to: "wandb"
+
+model:
+  _target_: urgent_mos.model.urgent_mos.UrgentMOS
+  feature_extractor:
+    _target_: urgent_mos.model.audio_encoder.FusedAudioEncoder
+    feature_extractors:
+      - _target_: urgent_mos.model.audio_encoder.AudioEncoder
+        model_name: microsoft/wavlm-base-plus
+        freeze: true
+    output_dim: ${arch.encoder_dim}
+  category2metrics: ${category2metrics}
+  category2encoder:
+    _target_: urgent_mos.model.urgent_mos.build_category_encoders
+    _recursive_: false
+    category2metrics: ${category2metrics}
+    encoder_cfg: ${arch.category_encoder}
+  metric2absolute_score_predictor:
+    _target_: urgent_mos.model.urgent_mos.build_absolute_score_predictors
+    _recursive_: false
+    category2metrics: ${category2metrics}
+    pooler_cfg: ${arch.pooler}
+    encoder_cfg: ${arch.metric_encoder}
+    input_dim: ${arch.encoder_dim}
+  metric2comparative_score_predictor:
+    _target_: urgent_mos.model.urgent_mos.build_comparative_score_predictors
+    _recursive_: false
+    category2metrics: ${category2metrics}
+    pooler_cfg: ${arch.pooler}
+    encoder_cfg: ${arch.metric_encoder}
+    input_dim: ${arch.encoder_dim}
+    num_heads: 4
+    min_cmos_for_tie: 0.5
+    regression_weight: 0.5
+    classification_weight: 0.5
+  shared_encoder: ${arch.shared_encoder}
+  use_symmetric_preference: true
+
+
+arch:
+  encoder_dim: 768
+  encoder_nhead: 8
+  encoder_dim_feedforward: 2048
+
+  shared_encoder: null
+  category_encoder:
+    _target_: torch.nn.TransformerEncoder
+    encoder_layer:
+      _target_: torch.nn.TransformerEncoderLayer
+      d_model: ${arch.encoder_dim}
+      nhead: ${arch.encoder_nhead}
+      dim_feedforward: ${arch.encoder_dim_feedforward}
+      batch_first: true
+    num_layers: 6
+  metric_encoder: null
+  pooler:
+    _target_: urgent_mos.model.pooling.MeanPooling

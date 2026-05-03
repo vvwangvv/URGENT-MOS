@@ -11,7 +11,7 @@ from accelerate import Accelerator
 from hydra.utils import instantiate
 from tqdm import tqdm
 
-from urgent_mos.utils import load_model_from_checkpoint, get_audio_duration
+from urgent_mos.utils import get_audio_duration
 
 logger = logging.getLogger(__name__)
 
@@ -262,27 +262,3 @@ def infer_pairs(
         batch_frames=batch_frames,
         num_workers=num_workers,
     )
-
-
-if __name__ == "__main__":
-    import json
-
-    audio_paths = []
-    with open("data/bc19/test/data.jsonl", "r") as f:
-        for line in f:
-            item = json.loads(line)
-            audio_paths.append(item["audio_path"])
-    checkpoint = "exp/f1s1c5m1_C1M1_pool_metric_token_noug/model_11000.pt"
-    model = load_model_from_checkpoint(checkpoint, "cuda")
-    result = infer(model, audio_paths, return_frame_scores=True)
-    print(result)
-
-    audio_pair_paths = []
-    with open("data/chime-7-udase-eval/test/data_pairs.jsonl", "r") as f:
-        for line in f:
-            item = json.loads(line)
-            audio_pair_paths.append(item["audio_paths"])
-    checkpoint = "exp/f1c1m5_d_ref/model_11000.pt"
-    model = load_model_from_checkpoint(checkpoint, "cuda")
-    result = infer_pairs(model, audio_pair_paths)
-    print(result)

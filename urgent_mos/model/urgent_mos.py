@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
-from huggingface_hub import preupload_lfs_files
-from hydra.utils import instantiate
-from omegaconf import DictConfig
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import torch
 import torch.nn as nn
+from hydra.utils import instantiate
+from omegaconf import DictConfig
+
 from urgent_mos.model.audio_encoder import FusedAudioEncoder
-from urgent_mos.utils import lengths2padding_mask
 from urgent_mos.model.common import RangeActivation
+from urgent_mos.utils import lengths2padding_mask
 
 
 class ComparativeScorePredictor(nn.Module):

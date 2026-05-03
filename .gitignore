@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Unit test / coverage / type-checker / linter caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Environments
+.env
+.venv/
+venv/
+env/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Hugging Face / Hydra / Weights & Biases caches and outputs
+.cache/
+outputs/
+multirun/
+.hydra/
+wandb/
+
+# Project-specific data and experiment artifacts (do not commit)
+/data/
+/exp/
+/runs/
+/playground/
+/local/
+/pretrained_models/
+/work_urgent2026_sqa/
+/data_bak/
+predictions.scp
+predictions_*.csv
+
+# Internal/proprietary datasets — never commit, never upload anywhere public.
+# Belt-and-suspenders patterns in case these dirs are ever moved out of /data/.
+0126_Instruct_TTS_MOS_*/
+0126_token重建_音质MOS评测_*/
+neo_onestep*/
+neo_twostep*/
+
+# Local-only environment script (copy from path.sh.example)
+/path.sh
+
+# Author-internal config recipes (kept locally, not part of the public release)
+/configs/is27/
+/configs/*.yaml
+!/configs/f1c1m5_d_corpus.yaml
+
+# Scratch
+tmp.txt
+tmp_*.txt
