@@ -5,17 +5,14 @@
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-models-yellow)](https://huggingface.co/urgent-challenge)
 
 Official baseline for the
-[VoiceMOS Challenge 2026 — Track 1](https://huggingface.co/urgent-challenge),
-implementing **UrgentMOS** (Wang et al., 2026,
+[VoiceMOS Challenge 2026 — Track 1](to-be-updated),
+implementing
 [arXiv:2601.18438](https://arxiv.org/abs/2601.18438)). The model jointly
 predicts:
 
 - **Absolute MOS** for ACR rows (1–5 scale).
 - **Comparative MOS / CMOS** for CCR rows (signed pairwise preference,
   −3…+3, positive ⇒ A is preferred over B).
-
-Datasets: [`urgent-challenge/vmc2026-track1-dev`](https://huggingface.co/datasets/urgent-challenge/vmc2026-track1-dev)
-and [`urgent-challenge/vmc2026-track1-test`](https://huggingface.co/datasets/urgent-challenge/vmc2026-track1-test).
 
 ---
 
@@ -98,9 +95,9 @@ into `data/`, then runs each per-corpus `prepare.sh` under `scripts/data/`
 to produce a `data.jsonl` (and `data_pairs.jsonl` where applicable) per
 dataset. 
 
-The two license-gated corpora (BC19, BVCC, URGENT 2024 SQA, URGENT 2025
-SQA) require a manual download from Zenodo; the recommended baseline config
-does not use them.
+The two license-gated corpora (BC19, BVCC) require a manual approval after downloading;
+URGENT 2024 SQA, URGENT 2025 SQA are time-consuming to prepare.
+These four datasets are by default excluded from data prepartion.
 
 ### 2. Activate your environment
 
@@ -120,14 +117,12 @@ cp path.sh.example path.sh    # one-time: edit to activate your env + WANDB_*
 (bf16). The number of processes is auto-detected from `CUDA_VISIBLE_DEVICES`
 (falling back to `nvidia-smi -L` if it is unset), so
 `CUDA_VISIBLE_DEVICES=0,1,2,3 ./train.sh` will use 4 GPUs on its own.
-For any non-trivial setup (multi-node, DeepSpeed, FSDP, …) call
+For any non-trivial setup (multi-node) call
 `accelerate launch` directly — see the
 [🤗 Accelerate documentation](https://huggingface.co/docs/accelerate/) for
 all available options.
 
-The recommended baseline recipe is
-[`configs/f1c1m5_d_corpus.yaml`](configs/f1c1m5_d_corpus.yaml); see
-[`configs/`](configs/) for variants. Any field can be overridden inline via
+Any field can be overridden inline via
 Hydra, e.g. `./train.sh f1c1m5_d_corpus dataloader.num_workers=8 trainer.learning_rate=2.4e-4`.
 
 Training logs to W&B by default — disable with `WANDB_MODE=disabled`.
