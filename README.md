@@ -5,7 +5,7 @@
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-models-yellow)](https://huggingface.co/urgent-challenge)
 
 Official baseline for the
-[VoiceMOS Challenge 2026 — Track 1](to-be-updated),
+[VoiceMOS Challenge 2026 — Track 1](https://sites.google.com/view/voicemos-challenge/voicemos-challenge-2026),
 implementing
 [arXiv:2601.18438](https://arxiv.org/abs/2601.18438)). The model jointly
 predicts:
