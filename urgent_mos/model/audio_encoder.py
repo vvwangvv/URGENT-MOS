@@ -74,7 +74,7 @@ class AudioEncoder(nn.Module):
                     breakpoint()
                 hidden_states = scale_grad(hidden_states, self.gradient_scale)
             output = hidden_states * rearrange(F.softmax(self.weights, dim=0), "l -> 1 l 1 1")
-            output = output.sum(dim=2)  # [b ,t ,d]
+            output = output.sum(dim=1)  # [b ,t ,d]
         else:
             with context:
                 output = self.model(**inputs).last_hidden_state
