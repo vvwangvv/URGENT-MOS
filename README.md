@@ -4,6 +4,19 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-models-yellow)](https://huggingface.co/urgent-challenge)
 
+> [!IMPORTANT]
+> **Critical bug fixed & checkpoints updated — 2026-06-24.**
+> A bug in the audio encoder's learnable layer-weighted feature aggregation
+> (the hidden states were summed over the wrong dimension) has been fixed in
+> [`d383e69`](https://github.com/vvwangvv/URGENT-MOS/commit/d383e69). Both
+> published checkpoints —
+> [`urgent-mos-f1c1m5dcorpus`](https://huggingface.co/urgent-challenge/urgent-mos-f1c1m5dcorpus)
+> and [`urgent-mos-f1c1m5dref`](https://huggingface.co/urgent-challenge/urgent-mos-f1c1m5dref)
+> — were retrained with the corrected code and **re-uploaded to the Hugging Face
+> Hub on 2026-06-24**. If you downloaded a checkpoint before this date, please
+> pull the latest code and re-download the model (e.g. clear the cached copy
+> under `~/.cache/huggingface`) to get the fixed weights.
+
 Official baseline for the
 [VoiceMOS Challenge 2026 — Track 1](https://sites.google.com/view/voicemos-challenge/voicemos-challenge-2026),
 implementing
